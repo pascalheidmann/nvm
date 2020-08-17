@@ -187,19 +187,16 @@ install_nvm_as_script() {
   nvm_download -s "$NVM_SOURCE_LOCAL" -o "$INSTALL_DIR/nvm.sh" || {
     echo >&2 "Failed to download '$NVM_SOURCE_LOCAL'"
     return 1
-  } &
+  }
   nvm_download -s "$NVM_EXEC_SOURCE" -o "$INSTALL_DIR/nvm-exec" || {
     echo >&2 "Failed to download '$NVM_EXEC_SOURCE'"
     return 2
-  } &
+  }
   nvm_download -s "$NVM_BASH_COMPLETION_SOURCE" -o "$INSTALL_DIR/bash_completion" || {
     echo >&2 "Failed to download '$NVM_BASH_COMPLETION_SOURCE'"
     return 2
-  } &
-  for job in $(jobs -p | command sort)
-  do
-    wait "$job" || return $?
-  done
+  }
+  
   chmod a+x "$INSTALL_DIR/nvm-exec" || {
     echo >&2 "Failed to mark '$INSTALL_DIR/nvm-exec' as executable"
     return 3
